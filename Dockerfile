@@ -8,8 +8,22 @@
 #
 # It's a good idea to place thigs that change often at the end. The build takes less time
 # this way since more of the build cache can be used.
+#
+# Guidelines
+# ----------
+#
+# * Always use ubuntu:latest. Problems with new ubuntu releases should be fixed before
+#  moving new images into production.
+#  - ubuntu 14.10 has this problem: /usr/bin/ld: ext/openssl/openssl.o: undefined reference to symbol 'SSL_get_verify_result@@OPENSSL_1.0.0'
+#
+# * Daemons are managed with supervisord.
+#
+# * Logging from all daemons should be performed to `/var/log/supervisor/supervisord.log`.
+#   The start script will `tail -f` this log so it shows up in `docker logs`. The log file of 
+#   daemons that can't log to `/var/log/supervisor/supervisord.log` should also be tailed
+#   in `start.sh`
 
-FROM     ubuntu:latest
+FROM     ubuntu:14.04
 MAINTAINER Jonas Colmsjö "jonas@gizur.com"
 
 RUN echo "export HOME=/root" >> /root/.profile
@@ -57,7 +71,7 @@ ADD ./src-mysql /src-mysql
 #ADD ./src-instances /src-instances
 
 # Install MySQL server
-RUN DEBIAN_FRONTEND=noninteractive apt-get install -y mysql-server && apt-get clean && rm -rf /var/lib/apt/lists/*
+RUN DEBIAN_FRONTEND=noninteractive apt-get install -y mysql-server
 
 # Fix configuration
 RUN sed -i -e"s/^bind-address\s*=\s*127.0.0.1/bind-address = 0.0.0.0/" /etc/mysql/my.cnf
@@ -124,13 +138,12 @@ ADD ./src-vtiger/cikab/CikabTroubleTicket /var/www/html/vtigercrm/modules/CikabT
 ADD ./src-vtiger/cikab/soap/customerportal.php /var/www/html/vtigercrm/soap/customerportal.php
 
 
-# Tests
-ADD ./test /test
-#RUN /test/setup.sh
-
 #
 # Start apache and mysql using supervisord
 # -----------------------------------------
+
+# Cleanup
+#apt-get clean && rm -rf /var/lib/apt/lists/*
 
 # Fix permissions
 RUN chown -R www-data:www-data /var/www/html
