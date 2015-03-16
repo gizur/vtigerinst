@@ -44,6 +44,7 @@ Development environment
 Login to MySQL using phpMyAdmin at: `http://localhost:PORT/phpMyAdmin-4.0.8-all-languages`
 
 It is usefull to connect with a shell when debugging:
+
 1. `docker run -t -i -p 80:80 -e db_server="localhost" -e db_port=":3306" -e db_username="vtigerdemo"
 -e db_password="vtigerdemo" -e db_name="vtigerdemo" vtiger /bin/bash`
 
