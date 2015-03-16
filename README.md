@@ -10,7 +10,7 @@ Quick installation
 `docker build --rm -t vtiger .` until the build succeeds.
 1. Start a container: `docker run -d -p 80:80 -e db_server="localhost" -e db_port=":3306" -e db_username="vtigerdemo" -e db_password="vtigerdemo" -e db_name="vtigerdemo" --name vtiger vtiger`
 1. Check the log files: `docker logs vtiger`
-1. Open http://[DOCKER_IP]/vtigercrm
+1. Open `http://[DOCKER_IP]/vtigercrm`
 
 Cikab's seasonportal is setup using [this repo](https://github.com/gizur/cikab)
 
