@@ -18,12 +18,10 @@ Cikab's seasonportal is setup using [this repo](https://github.com/gizur/cikab)
 Full setup
 ----------
 
-1. Update `src-vtiger/config.inc.php` with MySQL credentials and web server configuration.
-The defaults should be ok for development but should be changed for production.
-There are three different database dumps for development. See `src-mysql/mysql-setup.sh`
-for credentials. This variable also needs to be changed: `$site_URL = 'http://localhost:8080/vtigercrm';``
+1. Update `src-vtiger/config.inc.php`. This variable also needs to be changed:
+`$site_URL = 'http://localhost:8080/vtigercrm';`
 
-There is some logging that typically varies between development and production:
+There is also some logging that typically varies between development and production:
 
  * `error_reporting` in `php.ini`.
  *  `'LOG4PHP_DEBUG' => ...,` in `config.performance.php`
