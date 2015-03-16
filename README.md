@@ -18,7 +18,7 @@ Cikab's seasonportal is setup using [this repo](https://github.com/gizur/cikab)
 Full setup
 ----------
 
-1. Update `src-vtiger/config.inc.php`. This variable also needs to be changed:
+1. Update `src-vtiger/config.inc.php`. This variable needs to be changed:
 `$site_URL = 'http://localhost:8080/vtigercrm';`
 
 There is also some logging that typically varies between development and production:
