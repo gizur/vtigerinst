@@ -8,7 +8,11 @@ Quick installation
 1. `docker build --rm --no-cache -t vtiger .`
 1. The docker build sometimes fail due to network errors etc. Repeat
 `docker build --rm -t vtiger .` until the build succeeds.
-1. Start a container: `docker run -d -p 80:80 -e db_server="localhost" -e db_port=":3306" -e db_username="vtigerdemo" -e db_password="vtigerdemo" -e db_name="vtigerdemo" --name vtiger vtiger`
+1. Start a container:
+    docker run -d -p 80:80 -e db_server="localhost" -e db_port=":3306" \
+    -e db_username="vtigerdemo" -e db_password="vtigerdemo" \
+    -e db_name="vtigerdemo" --name vtiger vtiger`
+
 1. Check the log files: `docker logs vtiger`
 1. Open `http://[DOCKER_IP]/vtigercrm`
 
@@ -28,20 +32,19 @@ There is also some logging that typically varies between development and product
 
 2. Build the container: `docker build --rm -t vtiger .`
 
-3. Start a container: `docker run -t -i -p 80:80 -e db_server="localhost" -e db_port=":3306" -e db_username="xxx" -e db_password="xxx" -e db_name="xxx" -h vtigerXXX --name vtiger vtiger /bin/bash`. Replace `xxx` with your db credentials. Disconnect with `ctrl-p` `ctrl-q`
+3. Start a container:
 
+    docker run -t -i -p 80:80 -e db_server="localhost" -e db_port=":3306" \
+    -e db_username="xxx" -e db_password="xxx" -e db_name="xxx" \
+    -h vtiger[cikab|clab] --restart="on-failure:10" \
+    --link beservices:beservices --name vtiger vtiger /bin/bash
 
-Development environment
------------------------
+  Replace `xxx` with your db credentials. Disconnect with `ctrl-p` `ctrl-q`
+
+4. Then start things up with: `supervisord`
+
 
 Login to MySQL using phpMyAdmin at: `http://localhost:PORT/phpMyAdmin-4.0.8-all-languages`
-
-It is usefull to connect with a shell when debugging:
-
-1. `docker run -t -i -p 80:80 -e db_server="localhost" -e db_port=":3306" -e db_username="vtigerdemo"
--e db_password="vtigerdemo" -e db_name="vtigerdemo" vtiger /bin/bash`
-
-2. Then start things up with: `supervisord &> /tmp/out.txt &`
 
 PHP is installed in the folder : `/opt/src/phpfarm`
 

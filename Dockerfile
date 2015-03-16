@@ -2,7 +2,7 @@
 #
 # VERSION               0.0.1
 #
-# Docs: 
+# Docs:
 # - http://cweiske.de/tagebuch/Running%20Apache%20with%20a%20dozen%20PHP%20versions.htm
 # - http://cweiske.de/tagebuch/Introducing%20phpfarm.htm
 #
@@ -19,7 +19,7 @@
 # * Daemons are managed with supervisord.
 #
 # * Logging from all daemons should be performed to `/var/log/supervisor/supervisord.log`.
-#   The start script will `tail -f` this log so it shows up in `docker logs`. The log file of 
+#   The start script will `tail -f` this log so it shows up in `docker logs`. The log file of
 #   daemons that can't log to `/var/log/supervisor/supervisord.log` should also be tailed
 #   in `start.sh`
 
@@ -27,6 +27,9 @@ FROM     ubuntu:14.04
 MAINTAINER Jonas Colmsjö "jonas@gizur.com"
 
 RUN echo "export HOME=/root" >> /root/.profile
+
+# Mirros: http://ftp.acc.umu.se/ubuntu/ http://us.archive.ubuntu.com/ubuntu/
+RUN echo "deb http://ftp.acc.umu.se/ubuntu/ trusty-updates main restricted" >> /etc/apt/source.list
 
 RUN apt-get update
 RUN apt-get install -y wget nano curl git
@@ -45,6 +48,14 @@ ADD ./etc-supervisord.conf /etc/supervisord.conf
 ADD ./etc-supervisor-conf.d-supervisord.conf /etc/supervisor/conf.d/supervisord.conf
 RUN mkdir -p /var/log/supervisor/
 
+
+#
+# Install rsyslog
+# ---------------
+
+RUN apt-get install -y rsyslog
+
+ADD ./etc-rsyslog.conf /etc/rsyslog.conf
 
 
 #
@@ -84,7 +95,7 @@ RUN /src-mysql/mysql-setup.sh
 # Use phpfarm to manage PHP versions
 # ----------------------------------
 #
-# Add one script per PHP version and update 
+# Add one script per PHP version and update
 
 # Preparations
 RUN apt-get update
@@ -100,10 +111,10 @@ RUN cd /opt; git clone git://git.code.sf.net/p/phpfarm/code phpfarm
 ADD ./options.sh /opt/phpfarm/src/options.sh
 RUN cd /opt/phpfarm/src; ./compile.sh 5.3.27
 ADD ./var-www-html-cgibin-phpcgi-5.3.27 /var/www/cgibin/phpcgi-5.3.27
-ADD ./opt-phpfarm-inst-php-5.3.27-lib-php.ini /opt/phpfarm/inst/php-5.3.27/lib/php.ini 
+ADD ./opt-phpfarm-inst-php-5.3.27-lib-php.ini /opt/phpfarm/inst/php-5.3.27/lib/php.ini
 
 
-# Manage PHP versions in Apache using FastCGI - old libapache2-mod-fastcgi 
+# Manage PHP versions in Apache using FastCGI - old libapache2-mod-fastcgi
 RUN apt-get install -y apache2-mpm-worker apache2-suexec libapache2-mod-fcgid
 RUN a2enmod actions fcgid suexec
 ADD ./etc-apache2-sites-available-000-default.conf /etc/apache2/sites-available/000-default.conf
@@ -148,16 +159,13 @@ ADD ./src-vtiger/cikab/soap/customerportal.php /var/www/html/vtigercrm/soap/cust
 # Fix permissions
 RUN chown -R www-data:www-data /var/www/html
 
-# Create a volume
-RUN mkdir /volume
-VOLUME ["/volume"]
 
-# Add batches here since it changes often (use cache whrn building)
+# Add batches here since it changes often (use cache when building)
 ADD ./batches.py /
 ADD ./batches.sh /
 ADD ./recalc_privileges.php /var/www/html/vtigercrm/recalc_privileges.php
 
-ADD ./start.sh /
+# ADD ./start.sh /
 
 EXPOSE 80 443
-CMD ["/start.sh"]
+CMD ["supervisord"]
