@@ -28,12 +28,7 @@ There is also some logging that typically varies between development and product
 
 2. Build the container: `docker build --rm -t vtiger .`
 
-3. Start a container: `docker run -d -p 80:80 -e db_server="localhost" -e db_port=":3306" -e db_username="vtigerdemo" -e db_password="vtigerdemo" -e db_name="vtigerdemo" --name vtiger vtiger`.
- Replace the credentials with your db credentials
-
-4. Start a container: `docker run -d -p 80:80 -e db_server="localhost" -e db_port=":3306" -e db_username="xxx" -e db_password="xxx" -e db_name="xxx" --name vtiger vtiger`.
-Replace `xxx` with your db credentials
-
+3. Start a container: `docker run -t -i -p 80:80 -e db_server="localhost" -e db_port=":3306" -e db_username="xxx" -e db_password="xxx" -e db_name="xxx" -h vtigerXXX --name vtiger vtiger /bin/bash`. Replace `xxx` with your db credentials. Disconnect with `ctrl-p` `ctrl-q`
 
 
 Development environment
