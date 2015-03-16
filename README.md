@@ -37,7 +37,8 @@ There is also some logging that typically varies between development and product
     docker run -t -i -p 80:80 -e db_server="localhost" -e db_port=":3306" \
     -e db_username="xxx" -e db_password="xxx" -e db_name="xxx" \
     -h vtiger[cikab|clab] --restart="on-failure:10" \
-    --link beservices:beservices --name vtiger vtiger /bin/bash
+    --link beservices:beservices --name vtiger vtiger \
+    /bin/bash -c "supervisord; bash"
 
   Replace `xxx` with your db credentials. Disconnect with `ctrl-p` `ctrl-q`
 
