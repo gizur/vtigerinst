@@ -45,7 +45,8 @@ There is also some logging that typically varies between development and product
 4. Then start things up with: `supervisord`
 
 
-Login to MySQL using phpMyAdmin at: `http://localhost:PORT/phpMyAdmin-4.0.8-all-languages`
+Login to MySQL using phpMyAdmin at:
+`http://localhost:PORT/phpMyAdmin-4.0.8-all-languages`
 
 PHP is installed in the folder : `/opt/src/phpfarm`
 
