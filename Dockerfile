@@ -150,6 +150,36 @@ ADD ./src-vtiger/cikab/soap/customerportal.php /var/www/html/vtigercrm/soap/cust
 
 
 #
+# Install Percona Toolkit (for MySQL performance tuning of local MySQL)
+# --------------------------------------------------------------------
+
+RUN gpg --keyserver  hkp://keys.gnupg.net --recv-keys 1C4CBDCDCD2EFD2A
+RUN gpg -a --export CD2EFD2A | sudo apt-key add -
+RUN echo "deb http://repo.percona.com/apt `lsb_release -cs` main" >> /etc/apt/sources.list.d/percona.list
+RUN echo "deb-src http://repo.percona.com/apt `lsb_release -cs` main" >> /etc/apt/sources.list.d/percona.list
+RUN apt-get update
+RUN apt-get install -y percona-toolkit
+
+
+#
+# Install RDS Command Line Tools (for MySQL performance tuning of RDS MySQL)
+# --------------------------------------------------------------------------
+# http://docs.aws.amazon.com/AmazonRDS/latest/CommandLineReference/StartCLI.html
+
+RUN apt-get install -y openjdk-6-jdk unzip
+RUN echo "export JAVA_HOME=/usr/lib/jvm/java-6-openjdk-amd64" >> /root/.profile
+RUN wget http://s3.amazonaws.com/rds-downloads/RDSCli.zip
+RUN unzip RDSCli.zip
+RUN echo "export AWS_RDS_HOME=/RDSCli-1.19.004" >> /root/.profile
+RUN echo "export PATH=$PATH:$AWS_RDS_HOME/bin" >> /root/.profile
+RUN echo "export EC2_REGION=eu-west-1" >> /root/.profile
+RUN echo "AWSAccessKeyId=<Write your AWS access ID>" > /RDSCli-1.19.004/credentials
+RUN echo "AWSSecretKey=<Write your AWS secret key>" >> /RDSCli-1.19.004/credentials
+RUN echo "export AWS_CREDENTIAL_FILE=/RDSCli-1.19.004/credentials" >> /root/.profile
+RUN chmod 600 /RDSCli-1.19.004/credentials
+
+
+#
 # Start apache and mysql using supervisord
 # -----------------------------------------
 

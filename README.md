@@ -78,3 +78,20 @@ Update `CRM Settings->Outgoing Server` with the gmail credentials:
 	Password:					******  
 	From Email:					noreply@gizur.com
 	Requires Authentication?:	Yes
+
+
+MySQL performance tuning
+------------------------
+
+The Percona Toolkit is installed in the container. These tools works with the
+local MySQL process. They cannot be used for Amazon RDS.
+
+The RDS Command Line tools are also installed. Update `/RDSCli-1.19.00/credentials`
+with your API Key and Secret. Make sure that this user has the necessary IAM
+Policy. Then run `rds-describe-db-instances` to verify that things work.
+See the
+[documentation](http://docs.aws.amazon.com/AmazonRDS/latest/CommandLineReference/Welcome.html)
+for more details. A parameter needs to be changed in RDS in order to generate the
+[slow query logs](http://docs.aws.amazon.com/AmazonRDS/latest/UserGuide/USER_LogAccess.Concepts.MySQL.html).
+Changing parameters should be done with care. Make sure to test all settings in
+a non-production database first.
