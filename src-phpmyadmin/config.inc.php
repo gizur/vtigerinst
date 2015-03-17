@@ -11,7 +11,7 @@ $i = 0;
 /* Server: mysql [1] */
 $i++;
 $cfg['Servers'][$i]['verbose'] = 'mysql';
-$cfg['Servers'][$i]['host'] = 'localhost';
+$cfg['Servers'][$i]['host'] = getenv('db_server'); // 'localhost';
 $cfg['Servers'][$i]['port'] = '';
 $cfg['Servers'][$i]['socket'] = '';
 $cfg['Servers'][$i]['connect_type'] = 'tcp';
