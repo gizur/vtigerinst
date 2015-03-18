@@ -35,3 +35,20 @@ echo "grant usage on *.* to '$DBUSER'@'localhost' identified by '$DBPASSWORD'; F
 echo "grant all privileges on $DBNAME.* to '$DBUSER'@'%'; FLUSH PRIVILEGES" | mysql
 gunzip $SQLFILE
 mysql -u$DBUSER -p$DBPASSWORD $DBNAME < $SQLFILE
+
+
+#
+# Create vTiger Cikab DB
+#
+
+DBNAME="vtiger_5159ff6a"
+DBUSER="vtiger_5159ff6a"
+DBPASSWORD="vtiger_5159ff6a"
+SQLFILE="/src-mysql/vtiger_5159ff6a-vtiger2-20150318.sql"
+
+echo "CREATE DATABASE $DBNAME DEFAULT CHARACTER SET utf8 DEFAULT COLLATE utf8_general_ci; create user $DBUSER;" | mysql
+echo "grant usage on *.* to '$DBUSER'@'%' identified by '$DBPASSWORD'; FLUSH PRIVILEGES" | mysql
+echo "grant usage on *.* to '$DBUSER'@'localhost' identified by '$DBPASSWORD'; FLUSH PRIVILEGES" | mysql
+echo "grant all privileges on $DBNAME.* to '$DBUSER'@'%'; FLUSH PRIVILEGES" | mysql
+gunzip $SQLFILE
+mysql -u$DBUSER -p$DBPASSWORD $DBNAME < $SQLFILE
