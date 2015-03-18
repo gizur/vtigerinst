@@ -206,7 +206,7 @@ ADD ./backup.sh /
 RUN echo '0 1 * * *  /bin/bash -c "/backup.sh"' > /mycron
 
 # Run job every minute
-RUN echo '*/1 * * * *  /bin/bash -c "/var/www/html/vtigercrm/recalc_privileges.php"' >> /mycron
+RUN echo '*/1 * * * *  /bin/bash -c "/batches.sh"' >> /mycron
 
 RUN crontab /mycron
 

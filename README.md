@@ -39,7 +39,7 @@ There is also some logging that typically varies between development and product
     docker run -t -i -p 80:80 --env-file=env.list \
     -h vtiger[cikab|clab] --restart="on-failure:10" \
     --link beservices:beservices --name vtiger vtiger \
-    /bin/bash -c "supervisord; export > /env; bash"
+    /bin/bash -c "supervisord; export > /env; /var/www/html/vtigercrm/recalc_privileges.php; bash"
 
   Disconnect with `ctrl-p` `ctrl-q`
 
