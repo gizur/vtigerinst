@@ -180,22 +180,46 @@ RUN chmod 600 /RDSCli-1.19.004/credentials
 
 
 #
+# Setup S3
+# ---------
+
+RUN wget https://github.com/s3tools/s3cmd/archive/master.zip
+RUN unzip /master.zip
+RUN cd /s3cmd-master; python setup.py install
+RUN apt-get install -y python-dateutil
+
+ADD ./s3cfg /.s3cfg
+
+
+#
+# Install cron and batches
+# ------------------------
+
+# Add batches here since it changes often (use cache when building)
+#ADD ./batches.py /
+#ADD ./batches.sh /
+
+ADD ./recalc_privileges.php /var/www/html/vtigercrm/recalc_privileges.php
+
+# Run backup job every hour
+ADD ./backup.sh /
+RUN echo '0 1 * * *  /bin/bash -c "/backup.sh"' > /mycron
+
+# Run job every minute
+RUN echo '*/1 * * * *  /bin/bash -c "/var/www/html/vtigercrm/recalc_privileges.php"' >> /mycron
+
+RUN crontab /mycron
+
+ADD ./etc-pam.d-cron /etc/pam.d/cron
+
+
+#
 # Start apache and mysql using supervisord
 # -----------------------------------------
-
-# Cleanup
-#apt-get clean && rm -rf /var/lib/apt/lists/*
 
 # Fix permissions
 RUN chown -R www-data:www-data /var/www/html
 
-
-# Add batches here since it changes often (use cache when building)
-ADD ./batches.py /
-ADD ./batches.sh /
-ADD ./recalc_privileges.php /var/www/html/vtigercrm/recalc_privileges.php
-
-# ADD ./start.sh /
 
 EXPOSE 80 443
 CMD ["supervisord"]

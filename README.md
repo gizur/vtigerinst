@@ -32,15 +32,16 @@ There is also some logging that typically varies between development and product
 
 2. Build the container: `docker build --rm -t vtiger .`
 
+3. Copy `env.list.template` to `env.list` and update
+
 3. Start a container:
 
-    docker run -t -i -p 80:80 -e db_server="localhost" -e db_port=":3306" \
-    -e db_username="xxx" -e db_password="xxx" -e db_name="xxx" \
+    docker run -t -i -p 80:80 --env-file=env.list \
     -h vtiger[cikab|clab] --restart="on-failure:10" \
     --link beservices:beservices --name vtiger vtiger \
-    /bin/bash -c "supervisord; bash"
+    /bin/bash -c "supervisord; export > /env; bash"
 
-  Replace `xxx` with your db credentials. Disconnect with `ctrl-p` `ctrl-q`
+  Disconnect with `ctrl-p` `ctrl-q`
 
 4. Then start things up with: `supervisord`
 
