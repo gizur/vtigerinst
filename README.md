@@ -100,7 +100,10 @@ for more details. A parameter needs to be changed in RDS in order to generate th
 Changing parameters should be done with care. Make sure to test all settings in
 a non-production database first.
 
-Turn on slow query logs:
+The script `/src-mysql/db-report.sh` will download the slow query log and print
+a report using the percona tools.
+
+Turn on slow query logs in local db:
 
     set global slow_query_log = 'ON';
     set global long_query_time = 5;
@@ -115,7 +118,6 @@ Test that it works:  `SELECT SLEEP(15);`. This should show up in the slow log.
 Run the part of the application that is slow. Then do `flush logs;` and check
 `/var/lib/mysqld/vtiger-slow.log`. This will analyze the log and print a nice
 report: `pt-query-digest /var/lib/mysqld/vtiger-slow.log`
-
 
 RDS will save the output to a table. This can be turned on in a local db like
 this:
