@@ -166,17 +166,21 @@ RUN apt-get install -y percona-toolkit
 # --------------------------------------------------------------------------
 # http://docs.aws.amazon.com/AmazonRDS/latest/CommandLineReference/StartCLI.html
 
-RUN apt-get install -y openjdk-6-jdk unzip
-RUN echo "export JAVA_HOME=/usr/lib/jvm/java-6-openjdk-amd64" >> /root/.profile
-RUN wget http://s3.amazonaws.com/rds-downloads/RDSCli.zip
-RUN unzip RDSCli.zip
-RUN echo "export AWS_RDS_HOME=/RDSCli-1.19.004" >> /root/.profile
-RUN echo "export PATH=$PATH:$AWS_RDS_HOME/bin" >> /root/.profile
-RUN echo "export EC2_REGION=eu-west-1" >> /root/.profile
-RUN echo "AWSAccessKeyId=<Write your AWS access ID>" > /RDSCli-1.19.004/credentials
-RUN echo "AWSSecretKey=<Write your AWS secret key>" >> /RDSCli-1.19.004/credentials
-RUN echo "export AWS_CREDENTIAL_FILE=/RDSCli-1.19.004/credentials" >> /root/.profile
-RUN chmod 600 /RDSCli-1.19.004/credentials
+#RUN apt-get install -y openjdk-6-jdk unzip
+#RUN echo "export JAVA_HOME=/usr/lib/jvm/java-6-openjdk-amd64" >> /root/.profile
+#RUN wget http://s3.amazonaws.com/rds-downloads/RDSCli.zip
+#RUN unzip RDSCli.zip
+#RUN echo "export AWS_RDS_HOME=/RDSCli-1.19.004" >> /root/.profile
+#RUN echo "export PATH=$PATH:$AWS_RDS_HOME/bin" >> /root/.profile
+#RUN echo "export EC2_REGION=eu-west-1" >> /root/.profile
+#RUN echo "AWSAccessKeyId=<Write your AWS access ID>" > /RDSCli-1.19.004/credentials
+#RUN echo "AWSSecretKey=<Write your AWS secret key>" >> /RDSCli-1.19.004/credentials
+#RUN echo "export AWS_CREDENTIAL_FILE=/RDSCli-1.19.004/credentials" >> /root/.profile
+#RUN chmod 600 /RDSCli-1.19.004/credentials
+
+RUN apt-get install -y groff
+RUN easy_install pip
+RUN pip install awscli
 
 
 #

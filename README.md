@@ -39,9 +39,10 @@ There is also some logging that typically varies between development and product
     docker run -t -i -p 80:80 --env-file=env.list \
     -h vtiger[cikab|clab] --restart="on-failure:10" \
     --link beservices:beservices --name vtiger vtiger \
-    /bin/bash -c "supervisord; export > /env; /var/www/html/vtigercrm/recalc_privileges.php; bash"
+    /bin/bash -c "supervisord; export > /env; bash"
 
-  Disconnect with `ctrl-p` `ctrl-q`
+  Run `/var/www/html/vtigercrm/recalc_privileges.php` (to be on the safe side)
+  and disconnect with `ctrl-p` `ctrl-q`
 
 4. Then start things up with: `supervisord`
 
@@ -56,7 +57,8 @@ vTiger Credentials
 ------------------
 
  * vtigerdemo - admin/admin
-
+ * vtiger_5159ff6a - admin/frefug4staY7
+ * clabgizurcom - admin / st4vaDas3ecE
 
 Image backups
 -------------
@@ -87,12 +89,40 @@ MySQL performance tuning
 The Percona Toolkit is installed in the container. These tools works with the
 local MySQL process. They cannot be used for Amazon RDS.
 
-The RDS Command Line tools are also installed. Update `/RDSCli-1.19.00/credentials`
-with your API Key and Secret. Make sure that this user has the necessary IAM
-Policy. Then run `rds-describe-db-instances` to verify that things work.
+The RDS Command Line tools are also installed. Run `aws configure` and enter
+your credentials. Use the region `eu-west-1`. Make sure that this user has the
+necessary IAM Policy. Then run `aws rds rdescribe-db-instances` to verify that
+things work.
 See the
 [documentation](http://docs.aws.amazon.com/AmazonRDS/latest/CommandLineReference/Welcome.html)
 for more details. A parameter needs to be changed in RDS in order to generate the
 [slow query logs](http://docs.aws.amazon.com/AmazonRDS/latest/UserGuide/USER_LogAccess.Concepts.MySQL.html).
 Changing parameters should be done with care. Make sure to test all settings in
 a non-production database first.
+
+Turn on slow query logs:
+
+    set global slow_query_log = 'ON';
+    set global long_query_time = 5;
+    set global log_queries_not_using_indexes = 1;
+
+    show variables like 'slow%';
+    show variables like 'long%';
+    show variables like 'log%';
+
+Test that it works:  `SELECT SLEEP(15);`. This should show up in the slow log.
+
+Run the part of the application that is slow. Then do `flush logs;` and check
+`/var/lib/mysqld/vtiger-slow.log`. This will analyze the log and print a nice
+report: `pt-query-digest /var/lib/mysqld/vtiger-slow.log`
+
+
+RDS will save the output to a table. This can be turned on in a local db like
+this:
+
+    set global log_output = 'TABLE';
+    SHOW CREATE TABLE mysql.slow_log;
+
+Turn logging off:
+
+    set global slow_query_log = 'OFF';
