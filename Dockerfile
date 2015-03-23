@@ -32,7 +32,7 @@ RUN echo "export HOME=/root" >> /root/.profile
 RUN echo "deb http://ftp.acc.umu.se/ubuntu/ trusty-updates main restricted" >> /etc/apt/source.list
 
 RUN apt-get update
-RUN apt-get install -y wget nano curl git
+RUN apt-get install -y wget nano curl git unzip
 
 
 #
@@ -123,6 +123,11 @@ ADD ./etc-apache2-sites-available-000-default.conf /etc/apache2/sites-available/
 ADD ./src-phpmyadmin/phpMyAdmin-4.0.8-all-languages.tar.gz /var/www/html/
 ADD ./src-phpmyadmin/config.inc.php /var/www/html/phpMyAdmin-4.0.8-all-languages/config.inc.php
 
+# New version
+ADD ./src-phpmyadmin/phpMyAdmin-4.3.12-all-languages.tar.gz /var/www/html/
+ADD ./src-phpmyadmin/config.inc.php /var/www/html/phpMyAdmin-4.3.12-all-languages/config.inc.php
+
+
 # Either use pre-configured vTiger, or standard installation package
 # --------------------------------------------------------------------
 
@@ -201,9 +206,14 @@ ADD ./s3cfg /.s3cfg
 
 # Add batches here since it changes often (use cache when building)
 #ADD ./batches.py /
-#ADD ./batches.sh /
+ADD ./batches.sh /
 
 ADD ./recalc_privileges.php /var/www/html/vtigercrm/recalc_privileges.php
+RUN  /var/www/html/vtigercrm/recalc_privileges.php
+
+# Shouldn't have to disable/enable CikabTroubleTicket manually with this
+ADD ./src-vtiger/parent_tabdata.php /var/www/html/vtigercrm/
+ADD ./src-vtiger/tabdata.php /var/www/html/vtigercrm/
 
 # Run backup job every hour
 ADD ./backup.sh /

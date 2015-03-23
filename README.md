@@ -37,7 +37,7 @@ There is also some logging that typically varies between development and product
 3. Start a container:
 
     docker run -t -i -p 80:80 --env-file=env.list \
-    -h vtiger[cikab|clab] --restart="on-failure:10" \
+    -h vtiger --restart="on-failure:10" \
     --link beservices:beservices --name vtiger vtiger \
     /bin/bash -c "supervisord; export > /env; bash"
 
