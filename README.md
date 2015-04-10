@@ -8,10 +8,14 @@ Quick installation
 1. `docker build --rm --no-cache -t vtiger .`
 1. The docker build sometimes fail due to network errors etc. Repeat
 `docker build --rm -t vtiger .` until the build succeeds.
+
 1. Start a container:
-    docker run -d -p 80:80 -e db_server="localhost" -e db_port=":3306" \
+```
+    docker run -t -i -p 80:80 -e db_server="localhost" -e db_port=":3306" \
     -e db_username="vtigerdemo" -e db_password="vtigerdemo" \
-    -e db_name="vtigerdemo" --name vtiger vtiger`
+    -e db_name="vtigerdemo" --name vtiger vtiger \
+    /bin/bash -c "supervisord; export > /env; bash"
+```
 
 1. Check the log files: `docker logs vtiger`
 1. Open `http://[DOCKER_IP]/vtigercrm`
