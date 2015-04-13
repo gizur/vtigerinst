@@ -152,6 +152,7 @@ ADD ./src-vtiger/log4php.properties /var/www/html/vtigercrm/
 # Cikab customizations
 ADD ./src-vtiger/cikab/CikabTroubleTicket /var/www/html/vtigercrm/modules/CikabTroubleTicket
 ADD ./src-vtiger/cikab/soap/customerportal.php /var/www/html/vtigercrm/soap/customerportal.php
+ADD ./src-vtiger/include-Webservice-LoginCustomer.php /var/www/html/vtigercrm/include/Webservice/LoginCustomer.php
 
 
 #
