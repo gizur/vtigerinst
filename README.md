@@ -45,6 +45,8 @@ There is also some logging that typically varies between development and product
     --link beservices:beservices --name vtiger vtiger \
     /bin/bash -c "supervisord; export > /env; bash"
 
+    sudo docker run -t -i -p 90:80 --env-file=clabenv.list --restart="on-failure:10" --link beservices:beservices -h vtigerclab --name vtigerclab vtiger /bin/bash -c "supervisord; export > /env; bash
+
   Run `/var/www/html/vtigercrm/recalc_privileges.php` (to be on the safe side)
   and disconnect with `ctrl-p` `ctrl-q`
 
