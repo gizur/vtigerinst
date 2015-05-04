@@ -27,4 +27,6 @@ $cfg['DefaultLang'] = 'en';
 $cfg['ServerDefault'] = 1;
 $cfg['UploadDir'] = '';
 $cfg['SaveDir'] = '';
+
+$cfg['PmaAbsoluteUri'] = getenv('absolute_uri'); //'https://ssl.example.org/pma.example.org/'
 ?>

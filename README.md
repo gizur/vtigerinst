@@ -40,9 +40,9 @@ There is also some logging that typically varies between development and product
 
 3. Start a container:
 
-    docker run -t -i -p 80:80 --env-file=env.list \
+    docker run -t -i --env-file=env.list \
     -h vtiger --restart="on-failure:10" \
-    --link beservices:beservices --name vtiger vtiger \
+    --link beservices:beservices -h vtiger --name vtiger vtiger \
     /bin/bash -c "supervisord; export > /env; bash"
 
     sudo docker run -t -i -p 90:80 --env-file=clabenv.list --restart="on-failure:10" --link beservices:beservices -h vtigerclab --name vtigerclab vtiger /bin/bash -c "supervisord; export > /env; bash
