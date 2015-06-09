@@ -15,11 +15,11 @@ __mysql_config() {
 __start_mysql() {
   echo "Running the start_mysql function."
   mysqladmin -u root password mysql-server
-  mysql -uroot -pmysqlPassword -e "CREATE DATABASE testdb"
-  mysql -uroot -pmysqlPassword -e "GRANT ALL PRIVILEGES ON testdb.* TO 'testdb'@'localhost' IDENTIFIED BY 'mysqlPassword'; FLUSH PRIVILEGES;"
-  mysql -uroot -pmysqlPassword -e "GRANT ALL PRIVILEGES ON *.* TO 'testdb'@'%' IDENTIFIED BY 'mysqlPassword' WITH GRANT OPTION; FLUSH PRIVILEGES;"
-  mysql -uroot -pmysqlPassword -e "GRANT ALL PRIVILEGES ON *.* TO 'root'@'%' IDENTIFIED BY 'mysqlPassword' WITH GRANT OPTION; FLUSH PRIVILEGES;"
-  mysql -uroot -pmysqlPassword -e "select user, host FROM mysql.user;"
+  mysql -uroot -pmysql-server -e "CREATE DATABASE testdb"
+  mysql -uroot -pmysql-server -e "GRANT ALL PRIVILEGES ON testdb.* TO 'testdb'@'localhost' IDENTIFIED BY 'mysql-server'; FLUSH PRIVILEGES;"
+  mysql -uroot -pmysql-server -e "GRANT ALL PRIVILEGES ON *.* TO 'testdb'@'%' IDENTIFIED BY 'mysql-server' WITH GRANT OPTION; FLUSH PRIVILEGES;"
+  mysql -uroot -pmysql-server -e "GRANT ALL PRIVILEGES ON *.* TO 'root'@'%' IDENTIFIED BY 'mysql-server' WITH GRANT OPTION; FLUSH PRIVILEGES;"
+  mysql -uroot -pmysql-server -e "select user, host FROM mysql.user;"
   killall mysqld
   sleep 10
 }

@@ -11,7 +11,7 @@ Quick installation
 
 1. Start a container:
 ```
-    dockercli run -t -i -p 80:80 -e db_server="localhost" -e db_port=":3306" \
+    docker run -t -i -p 80:80 -e db_server="localhost" -e db_port=":3306" \
     -e db_username="vtigerdemo" -e db_password="vtigerdemo" \
     -e db_name="vtigerdemo" --name vtiger vtiger \
     /bin/bash -c "supervisord; export > /env; bash"

@@ -1,4 +1,4 @@
-#!/opt/phpfarm/inst/bin/php-5.3.27
+#!/usr/bin/php
 <?php
 chdir('/var/www/html/vtigercrm/');
 require_once('config.inc.php');

@@ -22,8 +22,6 @@
 FROM     centos:6
 MAINTAINER Jonas Colmsjö "jonas@gizur.com"
 
-#RUN echo "export HOME=/root" >> /root/.profile
-
 RUN yum install -y wget nano curl git unzip which
 
 
@@ -55,12 +53,19 @@ ADD ./etc-rsyslog.conf /etc/rsyslog.conf
 # ---------------
 
 RUN yum install -y httpd php
+
+RUN yum install -y php-mysql php-gd php-imap php-ldap php-odbc php-pear php-xml \
+php-xmlrpc php-mapserver php-mbstring php-mcrypt php-mssql php-snmp php-soap \
+php-tidy phpmyadmin mysql mysql-server httpd libpng libpng-devel libjpeg \
+libjpeg-devel freetype freetype-devel zlib xFree86-dev openssl openssl-devel \
+krb5-devel imap-2004d
+
 #RUN a2enmod rewrite status
-ADD ./etc-apache2-apache2.conf /etc/apache2/apache2.conf
-ADD ./etc-apache2-mods-available-status.conf /etc/apache2/mods-available/status.conf
+#ADD ./etc-apache2-apache2.conf /etc/apache2/apache2.conf
+#ADD ./etc-apache2-mods-available-status.conf /etc/apache2/mods-available/status.conf
 
 #RUN rm /var/www/html/index.html
-RUN echo "<?php\nphpinfo();\n " > /var/www/html/info.php
+RUN echo -e "<?php\nphpinfo();\n " > /var/www/html/info.php
 
 
 #
@@ -69,7 +74,6 @@ RUN echo "<?php\nphpinfo();\n " > /var/www/html/info.php
 
 # Add scripts, source code for SQL-scripts and vTiger instances
 ADD ./src-mysql /src-mysql
-ADD ./src-instances /src-instances
 ADD ./src-mysql/init.sh /
 
 # Run installation
@@ -79,7 +83,8 @@ RUN yum -y install mysql-server mysql pwgen supervisor bash-completion psmisc ne
 
 # Setup admin user and load data
 RUN /init.sh
-RUN /src-mysql/mysql-setup.sh
+#RUN /src-mysql/mysql-setup.sh
+
 
 #
 # Install phpMyAdmin
@@ -139,18 +144,6 @@ ADD ./src-vtiger/include-Webservice-LoginCustomer.php /var/www/html/vtigercrm/in
 # --------------------------------------------------------------------------
 # http://docs.aws.amazon.com/AmazonRDS/latest/CommandLineReference/StartCLI.html
 
-#RUN yum install -y openjdk-6-jdk unzip
-#RUN echo "export JAVA_HOME=/usr/lib/jvm/java-6-openjdk-amd64" >> /root/.profile
-#RUN wget http://s3.amazonaws.com/rds-downloads/RDSCli.zip
-#RUN unzip RDSCli.zip
-#RUN echo "export AWS_RDS_HOME=/RDSCli-1.19.004" >> /root/.profile
-#RUN echo "export PATH=$PATH:$AWS_RDS_HOME/bin" >> /root/.profile
-#RUN echo "export EC2_REGION=eu-west-1" >> /root/.profile
-#RUN echo "AWSAccessKeyId=<Write your AWS access ID>" > /RDSCli-1.19.004/credentials
-#RUN echo "AWSSecretKey=<Write your AWS secret key>" >> /RDSCli-1.19.004/credentials
-#RUN echo "export AWS_CREDENTIAL_FILE=/RDSCli-1.19.004/credentials" >> /root/.profile
-#RUN chmod 600 /RDSCli-1.19.004/credentials
-
 RUN yum install -y groff
 RUN easy_install pip
 RUN pip install awscli
@@ -200,7 +193,7 @@ RUN echo '*/1 * * * *  /bin/bash -c "/batches.sh"' >> /mycron
 # -----------------------------------------
 
 # Fix permissions
-#RUN chown -R www-data:www-data /var/www/html
+RUN chown -R apache:apache /var/www/html
 
 
 EXPOSE 80 443
