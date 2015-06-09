@@ -23,25 +23,21 @@
 #   daemons that can't log to `/var/log/supervisor/supervisord.log` should also be tailed
 #   in `start.sh`
 
-FROM     ubuntu:14.04
+FROM     centos:6
 MAINTAINER Jonas Colmsjö "jonas@gizur.com"
 
 RUN echo "export HOME=/root" >> /root/.profile
 
-# Mirros: http://ftp.acc.umu.se/ubuntu/ http://us.archive.ubuntu.com/ubuntu/
-RUN echo "deb http://ftp.acc.umu.se/ubuntu/ trusty-updates main restricted" >> /etc/apt/source.list
-
-RUN apt-get update
-RUN apt-get install -y wget nano curl git unzip
+RUN yum install -y wget nano curl git unzip which
 
 
 #
 # Install supervisord (used to handle processes)
 # ----------------------------------------------
 #
-# Installation with easy_install is more reliable. apt-get don't always work.
+# Installation with easy_install is more reliable. yum don't always work.
 
-RUN apt-get install -y python python-setuptools
+RUN yum install -y python python-setuptools
 RUN easy_install supervisor
 
 ADD ./etc-supervisord.conf /etc/supervisord.conf
@@ -53,7 +49,7 @@ RUN mkdir -p /var/log/supervisor/
 # Install rsyslog
 # ---------------
 
-RUN apt-get install -y rsyslog
+RUN yum install -y rsyslog
 
 ADD ./etc-rsyslog.conf /etc/rsyslog.conf
 
@@ -62,12 +58,12 @@ ADD ./etc-rsyslog.conf /etc/rsyslog.conf
 # Install Apache
 # ---------------
 
-RUN apt-get install -y apache2
-RUN a2enmod rewrite status
+RUN yum install -y httpd php
+#RUN a2enmod rewrite status
 ADD ./etc-apache2-apache2.conf /etc/apache2/apache2.conf
 ADD ./etc-apache2-mods-available-status.conf /etc/apache2/mods-available/status.conf
 
-RUN rm /var/www/html/index.html
+#RUN rm /var/www/html/index.html
 RUN echo "<?php\nphpinfo();\n " > /var/www/html/info.php
 
 
@@ -82,42 +78,19 @@ ADD ./src-mysql /src-mysql
 #ADD ./src-instances /src-instances
 
 # Install MySQL server
-RUN DEBIAN_FRONTEND=noninteractive apt-get install -y mysql-server
+#RUN DEBIAN_FRONTEND=noninteractive yum install -y mysql-server
 
 # Fix configuration
-RUN sed -i -e"s/^bind-address\s*=\s*127.0.0.1/bind-address = 0.0.0.0/" /etc/mysql/my.cnf
+#RUN sed -i -e"s/^bind-address\s*=\s*127.0.0.1/bind-address = 0.0.0.0/" /etc/mysql/my.cnf
 
 # Setup admin user and load data
-RUN /src-mysql/mysql-setup.sh
+#RUN /src-mysql/mysql-setup.sh
 
 
 #
-# Use phpfarm to manage PHP versions
+# Install phpMyAdmin
 # ----------------------------------
 #
-# Add one script per PHP version and update
-
-# Preparations
-RUN apt-get update
-RUN apt-get install -y libxml2-dev libbz2-dev libmcrypt-dev libxslt1-dev libssl-dev libsslcommon2-dev libapr1-dev libaprutil1-dev libreadline-dev make libcurl4-openssl-dev libjpeg-dev libpng12-dev libfreetype6-dev libxpm-dev libgd-dev libxpm4 t1lib-bin libtidy-dev libc-client-dev
-
-# Fix problem with libs in wrong place
-RUN ln -s /usr/lib/x86_64-linux-gnu/libXpm* /usr/lib/
-RUN ln -s /usr/lib/x86_64-linux-gnu/libkrb5* /usr/lib/
-RUN ln -s /usr/lib/x86_64-linux-gnu/libfreetype* /usr/lib/
-
-# Install PHP farm
-RUN cd /opt; git clone git://git.code.sf.net/p/phpfarm/code phpfarm
-ADD ./options.sh /opt/phpfarm/src/options.sh
-RUN cd /opt/phpfarm/src; ./compile.sh 5.3.27
-ADD ./var-www-html-cgibin-phpcgi-5.3.27 /var/www/cgibin/phpcgi-5.3.27
-ADD ./opt-phpfarm-inst-php-5.3.27-lib-php.ini /opt/phpfarm/inst/php-5.3.27/lib/php.ini
-
-
-# Manage PHP versions in Apache using FastCGI - old libapache2-mod-fastcgi
-RUN apt-get install -y apache2-mpm-worker apache2-suexec libapache2-mod-fcgid
-RUN a2enmod actions fcgid suexec
-ADD ./etc-apache2-sites-available-000-default.conf /etc/apache2/sites-available/000-default.conf
 
 # Install phpMyAdmin
 ADD ./src-phpmyadmin/phpMyAdmin-4.0.8-all-languages.tar.gz /var/www/html/
@@ -134,7 +107,7 @@ ADD ./src-phpmyadmin/config.inc.php /var/www/html/phpMyAdmin-4.3.12-all-language
 # Install vTiger, use the files produced from the installation script
 ADD ./vtigercrm-installed.tgz /var/www/html/
 
-# Cusomized to fetch db credentials from environment variables
+# Customized to fetch db credentials from environment variables
 ADD ./src-vtiger/config.inc.php /var/www/html/vtigercrm/
 ADD ./src-vtiger/config.performance.php /var/www/html/vtigercrm/
 ADD ./src-vtiger/log4php.properties /var/www/html/vtigercrm/
@@ -159,12 +132,12 @@ ADD ./src-vtiger/include-Webservice-LoginCustomer.php /var/www/html/vtigercrm/in
 # Install Percona Toolkit (for MySQL performance tuning of local MySQL)
 # --------------------------------------------------------------------
 
-RUN gpg --keyserver  hkp://keys.gnupg.net --recv-keys 1C4CBDCDCD2EFD2A
-RUN gpg -a --export CD2EFD2A | sudo apt-key add -
-RUN echo "deb http://repo.percona.com/apt `lsb_release -cs` main" >> /etc/apt/sources.list.d/percona.list
-RUN echo "deb-src http://repo.percona.com/apt `lsb_release -cs` main" >> /etc/apt/sources.list.d/percona.list
-RUN apt-get update
-RUN apt-get install -y percona-toolkit
+#RUN gpg --keyserver  hkp://keys.gnupg.net --recv-keys 1C4CBDCDCD2EFD2A
+#RUN gpg -a --export CD2EFD2A | apt-key add -
+#RUN echo "deb http://repo.percona.com/apt `lsb_release -cs` main" >> /etc/apt/sources.list.d/percona.list
+#RUN echo "deb-src http://repo.percona.com/apt `lsb_release -cs` main" >> /etc/apt/sources.list.d/percona.list
+#RUN yum update
+#RUN yum install -y percona-toolkit
 
 
 #
@@ -172,7 +145,7 @@ RUN apt-get install -y percona-toolkit
 # --------------------------------------------------------------------------
 # http://docs.aws.amazon.com/AmazonRDS/latest/CommandLineReference/StartCLI.html
 
-#RUN apt-get install -y openjdk-6-jdk unzip
+#RUN yum install -y openjdk-6-jdk unzip
 #RUN echo "export JAVA_HOME=/usr/lib/jvm/java-6-openjdk-amd64" >> /root/.profile
 #RUN wget http://s3.amazonaws.com/rds-downloads/RDSCli.zip
 #RUN unzip RDSCli.zip
@@ -184,7 +157,7 @@ RUN apt-get install -y percona-toolkit
 #RUN echo "export AWS_CREDENTIAL_FILE=/RDSCli-1.19.004/credentials" >> /root/.profile
 #RUN chmod 600 /RDSCli-1.19.004/credentials
 
-RUN apt-get install -y groff
+RUN yum install -y groff
 RUN easy_install pip
 RUN pip install awscli
 
@@ -196,7 +169,7 @@ RUN pip install awscli
 RUN wget https://github.com/s3tools/s3cmd/archive/master.zip
 RUN unzip /master.zip
 RUN cd /s3cmd-master; python setup.py install
-RUN apt-get install -y python-dateutil
+RUN yum install -y python-dateutil
 
 ADD ./s3cfg /.s3cfg
 
@@ -210,7 +183,7 @@ ADD ./s3cfg /.s3cfg
 ADD ./batches.sh /
 
 ADD ./recalc_privileges.php /var/www/html/vtigercrm/recalc_privileges.php
-RUN  /var/www/html/vtigercrm/recalc_privileges.php
+#RUN  /var/www/html/vtigercrm/recalc_privileges.php
 
 # Shouldn't have to disable/enable CikabTroubleTicket manually with this
 ADD ./src-vtiger/parent_tabdata.php /var/www/html/vtigercrm/
@@ -223,9 +196,9 @@ RUN echo '0 1 * * *  /bin/bash -c "/backup.sh"' > /mycron
 # Run job every minute
 RUN echo '*/1 * * * *  /bin/bash -c "/batches.sh"' >> /mycron
 
-RUN crontab /mycron
+#RUN crontab /mycron
 
-ADD ./etc-pam.d-cron /etc/pam.d/cron
+#ADD ./etc-pam.d-cron /etc/pam.d/cron
 
 
 #
@@ -233,7 +206,7 @@ ADD ./etc-pam.d-cron /etc/pam.d/cron
 # -----------------------------------------
 
 # Fix permissions
-RUN chown -R www-data:www-data /var/www/html
+#RUN chown -R www-data:www-data /var/www/html
 
 
 EXPOSE 80 443
