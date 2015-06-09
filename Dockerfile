@@ -12,10 +12,6 @@
 # Guidelines
 # ----------
 #
-# * Always use ubuntu:latest. Problems with new ubuntu releases should be fixed before
-#  moving new images into production.
-#  - ubuntu 14.10 has this problem: /usr/bin/ld: ext/openssl/openssl.o: undefined reference to symbol 'SSL_get_verify_result@@OPENSSL_1.0.0'
-#
 # * Daemons are managed with supervisord.
 #
 # * Logging from all daemons should be performed to `/var/log/supervisor/supervisord.log`.
@@ -26,7 +22,7 @@
 FROM     centos:6
 MAINTAINER Jonas Colmsjö "jonas@gizur.com"
 
-RUN echo "export HOME=/root" >> /root/.profile
+#RUN echo "export HOME=/root" >> /root/.profile
 
 RUN yum install -y wget nano curl git unzip which
 
@@ -71,21 +67,19 @@ RUN echo "<?php\nphpinfo();\n " > /var/www/html/info.php
 # Install MySQL
 # -------------
 
-# Install scripts
+# Add scripts, source code for SQL-scripts and vTiger instances
 ADD ./src-mysql /src-mysql
+ADD ./src-instances /src-instances
+ADD ./src-mysql/init.sh /
 
-# Add source code for SQL-scripts and vTiger instances
-#ADD ./src-instances /src-instances
-
-# Install MySQL server
-#RUN DEBIAN_FRONTEND=noninteractive yum install -y mysql-server
-
-# Fix configuration
-#RUN sed -i -e"s/^bind-address\s*=\s*127.0.0.1/bind-address = 0.0.0.0/" /etc/mysql/my.cnf
+# Run installation
+RUN yum -y update; yum clean all
+RUN yum -y install epel-release; yum clean all
+RUN yum -y install mysql-server mysql pwgen supervisor bash-completion psmisc net-tools; yum clean all
 
 # Setup admin user and load data
-#RUN /src-mysql/mysql-setup.sh
-
+RUN /init.sh
+RUN /src-mysql/mysql-setup.sh
 
 #
 # Install phpMyAdmin
