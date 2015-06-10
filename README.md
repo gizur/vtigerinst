@@ -3,6 +3,7 @@ vTiger container
 
 
 Clone this repo into a [LAMP container](https://github.com/colmsjo/docker-lamp).
+See the README of the LAMP container for instructions.
 
 1. Create the MySQL database: `./src-mysql/mysql-setup.sh`
 
