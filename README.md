@@ -5,8 +5,10 @@ vTiger container
 Clone this repo into a [LAMP container](https://github.com/colmsjo/docker-lamp).
 See the README of the LAMP container for instructions.
 
-1. Copy `env.list.template` to `env.list` and update. Run `set -a; . env.list`
-to set the environment variables.
+1. Setup environment variables for apache. Edit
+`/etc/supervisor/conf.d/supervisor.conf` based on `env.list` and do
+`supervisorctl update`. Open http://[IP]:[PORT]/info.php and validate the
+environment variables.
 
 2. Create the MySQL database: ` cd /src-mysql; ./mysql-setup.sh`
 
