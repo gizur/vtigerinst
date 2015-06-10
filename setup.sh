@@ -27,7 +27,6 @@ cp ./src-vtiger/include-Webservice-LoginCustomer.php /var/www/html/vtigercrm/inc
 cp ./batches.sh /vtiger-batches.sh
 
 cp ./recalc_privileges.php /var/www/html/vtigercrm/recalc_privileges.php
-/var/www/html/vtigercrm/recalc_privileges.php
 
 # Shouldn't have to disable/enable CikabTroubleTicket manually with this
 cp ./src-vtiger/parent_tabdata.php /var/www/html/vtigercrm/
