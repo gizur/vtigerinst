@@ -41,4 +41,4 @@ echo '0 1 * * *  /bin/bash -c "/vtiger-backup.sh"' > /mycron
 # Run job every minute
 echo '*/1 * * * *  /bin/bash -c "/vtiger-batches.sh"' >> /mycron
 
-#crontab /mycron
+crontab /mycron
