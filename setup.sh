@@ -1,6 +1,8 @@
 #!/bin/bash
 
-tar -xvzf ./vtigercrm-installed.tgz /var/www/html/
+DIR=$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )
+
+cd /var/www/html/; tar -xvzf $DIR/vtigercrm-installed.tgz; cd $DIR
 
 # Customized to fetch db credentials from environment variables
 cp ./src-vtiger/config.inc.php /var/www/html/vtigercrm/
@@ -18,7 +20,7 @@ cp ./src-vtiger/log4php.properties /var/www/html/vtigercrm/
 
 
 # Cikab customizations
-cp ./src-vtiger/cikab/CikabTroubleTicket /var/www/html/vtigercrm/modules/CikabTroubleTicket
+cp -r ./src-vtiger/cikab/CikabTroubleTicket /var/www/html/vtigercrm/modules/CikabTroubleTicket
 cp ./src-vtiger/cikab/soap/customerportal.php /var/www/html/vtigercrm/soap/customerportal.php
 cp ./src-vtiger/include-Webservice-LoginCustomer.php /var/www/html/vtigercrm/include/Webservices/LoginCustomer.php
 
@@ -39,4 +41,3 @@ echo '0 1 * * *  /bin/bash -c "/vtiger-backup.sh"' > /mycron
 echo '*/1 * * * *  /bin/bash -c "/vtiger-batches.sh"' >> /mycron
 
 #crontab /mycron
-

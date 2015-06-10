@@ -1,6 +1,6 @@
 #!/bin/sh
 
-CMD=mysql -uroot -pmysql-server
+CMD='mysql -uroot -pmysql-server'
 
 echo "GRANT ALL ON *.* TO admin@'%' IDENTIFIED BY 'mysql-server' WITH GRANT OPTION; FLUSH PRIVILEGES" | $($CMD)
 echo "GRANT ALL ON *.* TO admin@'localhost' IDENTIFIED BY 'mysql-server' WITH GRANT OPTION; FLUSH PRIVILEGES" | $($CMD)

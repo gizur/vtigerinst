@@ -1,7 +1,0 @@
-db_server=localhost
-db_port=:3306
-db_username=clab
-db_password=clab
-db_name=clab
-s3_access_key=AKIAJA4F4HWDXWIRWRCQ
-s3_secret_key=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
