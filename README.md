@@ -20,9 +20,11 @@ production:
 
 3. Setup batches:
 
+```
    # Run job every minute
    echo '*/1 * * * *  /bin/bash -c "/batches.sh"' >> /mycron
    RUN crontab /mycron
+```
 
 4. Run `/var/www/html/vtigercrm/recalc_privileges.php` manually
   (to be on the safe side)
