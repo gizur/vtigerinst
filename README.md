@@ -16,7 +16,7 @@ production:
  * `error_reporting` in `php.ini`.
  *  `'LOG4PHP_DEBUG' => ...,` in `config.performance.php`
 
-2. Copy `env.list.template` to `env.list` and update. Run `source env.list` to
+2. Copy `env.list.template` to `env.list` and update. Run `set -a; . env.list` to
    set the environment variables.
 
 3. Setup batches:
