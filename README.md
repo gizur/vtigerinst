@@ -8,7 +8,8 @@ See the README of the LAMP container for instructions.
 1. Setup environment variables for apache. Edit
 `/etc/supervisor/conf.d/supervisor.conf` based on `env.list` and do
 `supervisorctl update`. Open http://[IP]:[PORT]/info.php and validate the
-environment variables.
+environment variables. Also set the environment variables for the current bash
+session: `set -a; . env.list`. Save this with: `export > /env`
 
 2. Create the MySQL database: ` cd /src-mysql; ./mysql-setup.sh`
 
@@ -26,15 +27,17 @@ production:
 ```
    # Run job every minute
    echo '*/1 * * * *  /bin/bash -c "/batches.sh"' >> /mycron
-   RUN crontab /mycron
+   crontab /mycron
 ```
 
-5. Run `/var/www/html/vtigercrm/recalc_privileges.php`
+5. Run: `./setup.sh`
 
-6. Open `http://[DOCKER_IP]/vtigercrm`. Cikab's seasonportal is setup using
+6.Run `/var/www/html/vtigercrm/recalc_privileges.php`
+
+7. Open `http://[DOCKER_IP]/vtigercrm`. Cikab's seasonportal is setup using
 [this repo](https://github.com/gizur/cikab)
 
-7. disconnect with `ctrl-p` `ctrl-q`
+8. disconnect with `ctrl-p` `ctrl-q`
 
 
 vTiger Credentials
