@@ -3,4 +3,4 @@ PortalConfig.php
 config.inc.php
 .DS_Store
 .vagrant
-env.list
+env.list*
