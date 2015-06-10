@@ -32,6 +32,8 @@ cp ./recalc_privileges.php /var/www/html/vtigercrm/recalc_privileges.php
 cp ./src-vtiger/parent_tabdata.php /var/www/html/vtigercrm/
 cp ./src-vtiger/tabdata.php /var/www/html/vtigercrm/
 
+chown -R apache:apache /var/www/html/vtigercrm
+
 # Run backup job every hour
 cp ./backup.sh /vtiger-backup.sh
 echo '0 1 * * *  /bin/bash -c "/vtiger-backup.sh"' > /mycron
