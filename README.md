@@ -21,6 +21,7 @@ production:
 
  * `error_reporting` in `php.ini`.
  *  `'LOG4PHP_DEBUG' => ...,` in `config.performance.php`
+ *  `'log4php.rootLogger=DEBUG/FATAL/...,A1' => ...,` in `log4php.properties`
 
 4. Setup batches:
 
