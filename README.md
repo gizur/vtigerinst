@@ -33,7 +33,9 @@ production:
 
 5. Run: `./setup.sh`
 
-6.Run `/var/www/html/vtigercrm/recalc_privileges.php`
+6. Run `/var/www/html/vtigercrm/recalc_privileges.php`
+
+6. Restart supervisor for environment variables to take effect: `supervisorctl update`
 
 7. Open `http://[DOCKER_IP]/vtigercrm`. Cikab's seasonportal is setup using
 [this repo](https://github.com/gizur/cikab)
