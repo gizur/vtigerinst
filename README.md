@@ -51,6 +51,15 @@ vTiger Credentials
  * clabgizurcom - admin / st4vaDas3ecE
 
 
+MySQLprod setup
+-----------------
+
+gc1-mysql1.cjd3zjo5ldyz.eu-west-1.rds.amazonaws.com:3306
+RDS instance: gc1-mysql1
+root / s0C55vtKKNcV
+clabgizurcom/ il2xiTtjKG30
+
+
 Setup Outgoing Mail
 -------------------
 
