@@ -14,7 +14,7 @@ DBNAME="vtiger"
 DBUSER="vtiger"
 DBPASSWORD="vtiger"
 
-echo "drop user $DBUSER@'localhost'; drop database $DBNAME"|$($CMD)
+echo "drop user $DBUSER@'localhost'; drop user $DBUSER@'%'; drop database $DBNAME"|$($CMD)
 echo "CREATE DATABASE $DBNAME DEFAULT CHARACTER SET utf8 DEFAULT COLLATE utf8_general_ci; create user $DBUSER;" | $($CMD)
 echo "grant usage on *.* to '$DBUSER'@'%' identified by '$DBPASSWORD'; FLUSH PRIVILEGES" | $($CMD)
 echo "grant usage on *.* to '$DBUSER'@'localhost' identified by '$DBPASSWORD'; FLUSH PRIVILEGES" | $($CMD)
@@ -30,7 +30,7 @@ DBUSER="vtigerdemo"
 DBPASSWORD="vtigerdemo"
 SQLFILE="./vtiger.sql"
 
-echo "drop user $DBUSER@'localhost'; drop database $DBNAME"|$($CMD)
+echo "drop user $DBUSER@'localhost'; drop user $DBUSER@'%'; drop database $DBNAME"|$($CMD)
 echo "CREATE DATABASE $DBNAME DEFAULT CHARACTER SET utf8 DEFAULT COLLATE utf8_general_ci; create user $DBUSER;" | $($CMD)
 echo "grant usage on *.* to '$DBUSER'@'%' identified by '$DBPASSWORD'; FLUSH PRIVILEGES" | $($CMD)
 echo "grant usage on *.* to '$DBUSER'@'localhost' identified by '$DBPASSWORD'; FLUSH PRIVILEGES" | $($CMD)
@@ -48,7 +48,7 @@ DBUSER="vtiger_5159ff6a"
 DBPASSWORD="vtiger_5159ff6a"
 SQLFILE="./vtiger_5159ff6a-vtiger2-20150318.sql"
 
-echo "drop user $DBUSER@'localhost'; drop database $DBNAME"|$($CMD)
+echo "drop user $DBUSER@'localhost'; drop user $DBUSER@'%'; drop database $DBNAME"|$($CMD)
 echo "CREATE DATABASE $DBNAME DEFAULT CHARACTER SET utf8 DEFAULT COLLATE utf8_general_ci; create user $DBUSER;" | $($CMD)
 echo "grant usage on *.* to '$DBUSER'@'%' identified by '$DBPASSWORD'; FLUSH PRIVILEGES" | $($CMD)
 echo "grant usage on *.* to '$DBUSER'@'localhost' identified by '$DBPASSWORD'; FLUSH PRIVILEGES" | $($CMD)
@@ -66,7 +66,7 @@ DBUSER="clabgizurcom"
 DBPASSWORD="clabgizurcom"
 SQLFILE="./clab-vtiger-20150419.sql"
 
-echo "drop user $DBUSER@'localhost'; drop database $DBNAME"|$($CMD)
+echo "drop user $DBUSER@'localhost'; drop user $DBUSER@'%'; drop database $DBNAME"|$($CMD)
 echo "CREATE DATABASE $DBNAME DEFAULT CHARACTER SET utf8 DEFAULT COLLATE utf8_general_ci; create user $DBUSER;" | $($CMD)
 echo "grant usage on *.* to '$DBUSER'@'%' identified by '$DBPASSWORD'; FLUSH PRIVILEGES" | $($CMD)
 echo "grant usage on *.* to '$DBUSER'@'localhost' identified by '$DBPASSWORD'; FLUSH PRIVILEGES" | $($CMD)
