@@ -25,18 +25,18 @@ echo "grant all privileges on $DBNAME.* to '$DBUSER'@'%'; FLUSH PRIVILEGES" | $(
 # Create vTiger Demo DB
 #
 
-#DBNAME="vtigerdemo"
-#DBUSER="vtigerdemo"
-#DBPASSWORD="vtigerdemo"
-#SQLFILE="./vtiger.sql"
+DBNAME="vtigerdemo"
+DBUSER="vtigerdemo"
+DBPASSWORD="vtigerdemo"
+SQLFILE="./vtiger.sql"
 
-#echo "drop user $DBUSER@'localhost'; drop user $DBUSER@'%'; drop database $DBNAME"|$($CMD)
-#echo "CREATE DATABASE $DBNAME DEFAULT CHARACTER SET utf8 DEFAULT COLLATE utf8_general_ci; create user $DBUSER;" | $($CMD)
-#echo "grant usage on *.* to '$DBUSER'@'%' identified by '$DBPASSWORD'; FLUSH PRIVILEGES" | $($CMD)
-#echo "grant usage on *.* to '$DBUSER'@'localhost' identified by '$DBPASSWORD'; FLUSH PRIVILEGES" | $($CMD)
-#echo "grant all privileges on $DBNAME.* to '$DBUSER'@'%'; FLUSH PRIVILEGES" | $($CMD)
-#gunzip $SQLFILE
-#mysql -u$DBUSER -p$DBPASSWORD $DBNAME < $SQLFILE
+echo "drop user $DBUSER@'localhost'; drop user $DBUSER@'%'; drop database $DBNAME"|$($CMD)
+echo "CREATE DATABASE $DBNAME DEFAULT CHARACTER SET utf8 DEFAULT COLLATE utf8_general_ci; create user $DBUSER;" | $($CMD)
+echo "grant usage on *.* to '$DBUSER'@'%' identified by '$DBPASSWORD'; FLUSH PRIVILEGES" | $($CMD)
+echo "grant usage on *.* to '$DBUSER'@'localhost' identified by '$DBPASSWORD'; FLUSH PRIVILEGES" | $($CMD)
+echo "grant all privileges on $DBNAME.* to '$DBUSER'@'%'; FLUSH PRIVILEGES" | $($CMD)
+gunzip $SQLFILE
+mysql -u$DBUSER -p$DBPASSWORD $DBNAME < $SQLFILE
 
 
 #
