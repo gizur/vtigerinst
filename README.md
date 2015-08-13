@@ -11,7 +11,7 @@ See the README of the LAMP container for instructions.
 environment variables. Also set the environment variables for the current bash
 session: `set -a; . env.list`. Save this with: `export > /env`
 
-2. Create the MySQL database: ` cd /src-mysql; ./mysql-setup.sh`
+2. Create the MySQL database: ` cd src-mysql; ./mysql-setup.sh`
 
 3. Update `src-vtiger/config.inc.php`. This variable needs to be changed:
 `$site_URL = 'http://localhost:8080/vtigercrm';`
@@ -35,10 +35,9 @@ production:
 
 6. Run `/var/www/html/vtigercrm/recalc_privileges.php`
 
-6. Restart supervisor for environment variables to take effect: `supervisorctl update`
-
 7. Open `http://[DOCKER_IP]/vtigercrm`. Cikab's seasonportal is setup using
-[this repo](https://github.com/gizur/cikab)
+[this repo](https://github.com/gizur/cikab). Clab's trailerapp portal is
+setup using [this repo](https://github.com/gizur/clab).
 
 8. Enable and disable the assets module: CRM Settings->Module Manager
 (workaround for a bug in vtiger).

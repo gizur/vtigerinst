@@ -23,6 +23,7 @@ cp ./src-vtiger/log4php.properties /var/www/html/vtigercrm/
 cp -r ./src-vtiger/cikab/CikabTroubleTicket /var/www/html/vtigercrm/modules/CikabTroubleTicket
 cp ./src-vtiger/cikab/soap/customerportal.php /var/www/html/vtigercrm/soap/customerportal.php
 cp ./src-vtiger/include-Webservice-LoginCustomer.php /var/www/html/vtigercrm/include/Webservices/LoginCustomer.php
+cp ./src-vtiger/include-Webservice-RelateTroubleTicketDocument.php /var/www/html/vtigercrm/include/Webservices/RelateTroubleTicketDocument.php
 
 cp ./batches.sh /vtiger-batches.sh
 

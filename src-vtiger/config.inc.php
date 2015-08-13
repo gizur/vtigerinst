@@ -80,7 +80,7 @@ $dbconfigoption['ssl'] = false;
 
 $host_name = $dbconfig['db_hostname'];
 
-$site_URL = 'http://test.gizur.com/vtigercrm';
+$site_URL = 'http://localhost/vtigercrm';
 
 // root directory path
 $root_directory = '/var/www/html/vtigercrm/';
