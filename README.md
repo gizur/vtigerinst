@@ -23,7 +23,8 @@ production:
  *  `'LOG4PHP_DEBUG' => ...,` in `config.performance.php`
  *  `'log4php.rootLogger=DEBUG/FATAL/...,A1' => ...,` in `log4php.properties`
 
-4. Setup batches:
+4. Setup batches (this should only be performed on one server if there are
+  several application servers):
 
 ```
    # Run job every minute
