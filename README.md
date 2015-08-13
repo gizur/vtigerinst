@@ -40,7 +40,10 @@ production:
 7. Open `http://[DOCKER_IP]/vtigercrm`. Cikab's seasonportal is setup using
 [this repo](https://github.com/gizur/cikab)
 
-8. disconnect with `ctrl-p` `ctrl-q`
+8. Enable and disable the assets module: CRM Settings->Module Manager
+(workaround for a bug in vtiger).
+
+9. disconnect with `ctrl-p` `ctrl-q`
 
 
 vTiger Credentials
