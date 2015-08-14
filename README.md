@@ -11,9 +11,12 @@ See the README of the LAMP container for instructions.
 environment variables. Also set the environment variables for the current bash
 session: `set -a; . env.list`. Save this with: `export > /env`
 
-2. Create the MySQL database: ` cd src-mysql; ./mysql-setup.sh`
+2. Delete `info.php` or rename it to a long random string (it contains sensitive
+  information)
 
-3. Update `src-vtiger/config.inc.php`. This variable needs to be changed:
+3. Create the MySQL database: ` cd src-mysql; ./mysql-setup.sh`
+
+4. Update `src-vtiger/config.inc.php`. This variable needs to be changed:
 `$site_URL = 'http://localhost:8080/vtigercrm';`
 
 There is also some logging that typically varies between development and
@@ -23,7 +26,7 @@ production:
  *  `'LOG4PHP_DEBUG' => ...,` in `config.performance.php`
  *  `'log4php.rootLogger=DEBUG/FATAL/...,A1' => ...,` in `log4php.properties`
 
-4. Setup batches (this should only be performed on one server if there are
+5. Setup batches (this should only be performed on one server if there are
   several application servers):
 
 ```
@@ -32,18 +35,18 @@ production:
    crontab /mycron
 ```
 
-5. Run: `./setup.sh`
+6. Run: `./setup.sh`
 
-6. Run `/var/www/html/vtigercrm/recalc_privileges.php`
+7. Run `/var/www/html/vtigercrm/recalc_privileges.php`
 
-7. Open `http://[DOCKER_IP]/vtigercrm`. Cikab's seasonportal is setup using
+8. Open `http://[DOCKER_IP]/vtigercrm`. Cikab's seasonportal is setup using
 [this repo](https://github.com/gizur/cikab). Clab's trailerapp portal is
 setup using [this repo](https://github.com/gizur/clab).
 
-8. Enable and disable the assets module: CRM Settings->Module Manager
+9. Enable and disable the assets module: CRM Settings->Module Manager
 (workaround for a bug in vtiger).
 
-9. disconnect with `ctrl-p` `ctrl-q`
+10. disconnect with `ctrl-p` `ctrl-q`
 
 
 vTiger Credentials
