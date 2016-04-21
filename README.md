@@ -49,23 +49,6 @@ setup using [this repo](https://github.com/gizur/clab).
 10. disconnect with `ctrl-p` `ctrl-q`
 
 
-vTiger Credentials
-------------------
-
- * vtigerdemo - admin/admin
- * vtiger_5159ff6a - admin/frefug4staY7
- * clabgizurcom - admin / st4vaDas3ecE
-
-
-MySQLprod setup
------------------
-
-gc1-mysql1.cjd3zjo5ldyz.eu-west-1.rds.amazonaws.com:3306
-RDS instance: gc1-mysql1
-root / s0C55vtKKNcV
-clabgizurcom/ il2xiTtjKG30
-
-
 Setup Outgoing Mail
 -------------------
 
