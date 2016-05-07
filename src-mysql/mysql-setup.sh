@@ -1,9 +1,9 @@
 #!/bin/sh
 
-CMD='mysql -uroot -pmysql-server'
+CMD="mysql -uroot -pmysql-server -h$db_server"
 
-echo "GRANT ALL ON *.* TO admin@'%' IDENTIFIED BY 'mysql-server' WITH GRANT OPTION; FLUSH PRIVILEGES" | $($CMD)
-echo "GRANT ALL ON *.* TO admin@'localhost' IDENTIFIED BY 'mysql-server' WITH GRANT OPTION; FLUSH PRIVILEGES" | $($CMD)
+#echo "GRANT ALL ON *.* TO admin@'%' IDENTIFIED BY 'mysql-server' WITH GRANT OPTION; FLUSH PRIVILEGES" | $($CMD)
+#echo "GRANT ALL ON *.* TO admin@'localhost' IDENTIFIED BY 'mysql-server' WITH GRANT OPTION; FLUSH PRIVILEGES" | $($CMD)
 
 
 #
@@ -36,7 +36,7 @@ echo "grant usage on *.* to '$DBUSER'@'%' identified by '$DBPASSWORD'; FLUSH PRI
 echo "grant usage on *.* to '$DBUSER'@'localhost' identified by '$DBPASSWORD'; FLUSH PRIVILEGES" | $($CMD)
 echo "grant all privileges on $DBNAME.* to '$DBUSER'@'%'; FLUSH PRIVILEGES" | $($CMD)
 gunzip $SQLFILE
-mysql -u$DBUSER -p$DBPASSWORD $DBNAME < $SQLFILE
+mysql -u$DBUSER -p$DBPASSWORD -h$db_server $DBNAME < $SQLFILE
 
 
 #
@@ -54,7 +54,7 @@ mysql -u$DBUSER -p$DBPASSWORD $DBNAME < $SQLFILE
 #echo "grant usage on *.* to '$DBUSER'@'localhost' identified by '$DBPASSWORD'; FLUSH PRIVILEGES" | $($CMD)
 #echo "grant all privileges on $DBNAME.* to '$DBUSER'@'%'; FLUSH PRIVILEGES" | $($CMD)
 #gunzip $SQLFILE
-#mysql -u$DBUSER -p$DBPASSWORD $DBNAME < $SQLFILE
+#mysql -u$DBUSER -p$DBPASSWORD -h$db_server $DBNAME < $SQLFILE
 
 
 #
@@ -72,4 +72,4 @@ echo "grant usage on *.* to '$DBUSER'@'%' identified by '$DBPASSWORD'; FLUSH PRI
 echo "grant usage on *.* to '$DBUSER'@'localhost' identified by '$DBPASSWORD'; FLUSH PRIVILEGES" | $($CMD)
 echo "grant all privileges on $DBNAME.* to '$DBUSER'@'%'; FLUSH PRIVILEGES" | $($CMD)
 gunzip $SQLFILE
-mysql -u$DBUSER -p$DBPASSWORD $DBNAME < $SQLFILE
+mysql -u$DBUSER -p$DBPASSWORD -h$db_server $DBNAME < $SQLFILE
